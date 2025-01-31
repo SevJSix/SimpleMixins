@@ -42,7 +42,7 @@ Maven:
 
 Example usage in your project:
 ```java
-MixinManager.register(new Mixin(
+me.ian.mixin.MixinManager.register(new me.ian.mixin.Mixin(
     EntityPlayer.class, // target class
     "playerTick", // method name
     MixinEntityPlayer.class // mixin class
@@ -51,5 +51,5 @@ MixinManager.register(new Mixin(
 
 Initialize mixins:
 ```java
-MixinManager.init(javaPlugin); // Initialize mixins. Replace 'javaPlugin' with your plugin instance.
+me.ian.mixin.MixinManager.init(javaPlugin); // Initialize mixins. Replace 'javaPlugin' with your plugin instance.
 ```
