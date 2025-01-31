@@ -40,16 +40,32 @@ Maven:
 
 ## Code exmaples
 
-Example usage in your project:
+Create a new mixin
 ```java
-me.ian.mixin.MixinManager.register(new me.ian.mixin.Mixin(
+public class MixinEntityPlayer {
+    
+    @Advice.OnMethodEnter
+    public static void onPlayerTick(@Advice.This EntityPlayer player) {
+        try {
+            player.sendMessage(new ChatMessage("Mixin system working!"));
+            System.out.println("Applied mixin to: " + player.getName());
+        } catch (Exception e) {
+            System.err.println("Mixin error: " + e.getMessage());
+        }
+    }
+}
+```
+
+Register mixin class
+```java
+MixinManager.register(new me.ian.mixin.Mixin(
     EntityPlayer.class, // target class
     "playerTick", // method name
     MixinEntityPlayer.class // mixin class
 ));
 ```
 
-Initialize mixins:
+Initialize and apply mixins:
 ```java
-me.ian.mixin.MixinManager.init(javaPlugin); // Initialize mixins. Replace 'javaPlugin' with your plugin instance.
+MixinManager.init();
 ```
