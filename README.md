@@ -42,16 +42,11 @@ Maven:
 
 Create a new mixin
 ```java
-public class MixinEntityPlayer {
-    
+public class MixinExample {
+
     @Advice.OnMethodEnter
-    public static void onPlayerTick(@Advice.This EntityPlayer player) {
-        try {
-            player.sendMessage(new ChatMessage("Mixin system working!"));
-            System.out.println("Applied mixin to: " + player.getName());
-        } catch (Exception e) {
-            System.err.println("Mixin error: " + e.getMessage());
-        }
+    public static void addBefore(@Advice.This Example example, @Advice.Argument(0) int val) {
+        System.out.println("Intercepted aMethod(int): " + val);
     }
 }
 ```
@@ -59,13 +54,15 @@ public class MixinEntityPlayer {
 Register mixin class
 ```java
 MixinManager.register(new me.ian.mixin.Mixin(
-    EntityPlayer.class, // target class
-    "playerTick", // method name
-    MixinEntityPlayer.class // mixin class
+    Example.class, // target class
+    "aMethod", // method name
+    new Class[]{int.class}, // parameter types
+    void.class, // return type
+    MixinExample.class // mixin class
 ));
 ```
 
 Initialize and apply mixins:
 ```java
-MixinManager.init();
+MixinManager.init(classLoader); // replace 'classLoader' with your target classloader
 ```
