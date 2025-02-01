@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SevJSix:SimpleMixins:1.0.0")
+    implementation("com.github.SevJSix:SimpleMixins:1.1")
 }
 ```
 
@@ -32,7 +32,7 @@ Maven:
     <dependency>
         <groupId>com.github.SevJSix</groupId>
         <artifactId>SimpleMixins</artifactId>
-        <version>1.0.0</version>
+        <version>1.1</version>
     </dependency>
 </dependencies>
 
