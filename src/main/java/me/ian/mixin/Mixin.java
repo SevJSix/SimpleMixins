@@ -11,13 +11,15 @@ public class Mixin {
     private final Class<?>[] parameterTypes;
     private final Class<?> returnType;
     private final Class<?> adviceClass;
+    private final boolean isConstructor;
 
-    public Mixin(Class<?> targetClass, String methodName, Class<?>[] parameterTypes, Class<?> returnType, Class<?> adviceClass) {
+    public Mixin(Class<?> targetClass, String methodName, Class<?>[] parameterTypes, Class<?> returnType, Class<?> adviceClass, boolean isConstructor) {
         this.targetClass = targetClass;
         this.methodName = methodName;
         this.parameterTypes = parameterTypes;
         this.returnType = returnType;
         this.adviceClass = adviceClass;
+        this.isConstructor = isConstructor;
     }
 
     public ElementMatcher.Junction<? super TypeDescription> getTargetMatcher() {
@@ -25,9 +27,16 @@ public class Mixin {
     }
 
     public ElementMatcher.Junction<MethodDescription> getMethodMatcher() {
-        return ElementMatchers.named(methodName)
-                .and(ElementMatchers.takesArguments(parameterTypes))
-                .and(ElementMatchers.returns(returnType));
+        if (isConstructor) {
+            // Match constructors by parameter types
+            return ElementMatchers.isConstructor()
+                    .and(ElementMatchers.takesArguments(parameterTypes));
+        } else {
+            // Existing method matcher logic
+            return ElementMatchers.named(methodName)
+                    .and(ElementMatchers.takesArguments(parameterTypes))
+                    .and(ElementMatchers.returns(returnType));
+        }
     }
 
     public Class<?> getAdviceClass() { return adviceClass; }
